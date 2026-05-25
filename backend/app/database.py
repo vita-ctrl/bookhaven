@@ -4,10 +4,12 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlmodel import SQLModel
 
 # Without this import, models will not be registered with SQLModel.metadata, and the tables won't be created in the database when init_db() is called.
+from app.config import get_settings
 from app.models import *  # noqa: F403
 
+settings = get_settings()
 
-DATABASE_URL = "sqlite+aiosqlite:///./bookstore.db"
+DATABASE_URL = settings.DB.URL
 
 async_engine = create_async_engine(url=DATABASE_URL, echo=False)
 
