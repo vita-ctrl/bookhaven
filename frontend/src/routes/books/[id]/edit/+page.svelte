@@ -1,6 +1,6 @@
 <script lang="ts">
-  import BookForm from '$lib/components/BookForm.svelte';
-  import type { ActionData, PageData } from './$types';
+  import BookForm from "$lib/components/BookForm.svelte";
+  import type { ActionData, PageData } from "./$types";
 
   export let data: PageData;
   export let form: ActionData;
@@ -10,7 +10,7 @@
     author: data.book.author,
     published_date: data.book.published_date,
     isbn: data.book.isbn,
-    cover_url: data.book.cover_url ?? ''
+    cover_url: data.book.cover_url ?? "",
   };
 </script>
 

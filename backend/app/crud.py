@@ -15,6 +15,7 @@ from app.models import (
     BookCreate,
     BookPage,
     BookRead,
+    BookReadWithDownload,
     BookUpdate,
 )
 
@@ -24,7 +25,7 @@ books_router = APIRouter(prefix="/books", tags=["Books"])
 
 @books_router.get("/", response_model=list[BookRead])
 async def get_books(session: SessionDep):
-    result = await session.execute(select(Book).order_by(Book.id))
+    result = await session.execute(select(Book))
     return result.scalars().all()
 
 
@@ -51,7 +52,18 @@ async def get_books_page(
     )
 
     return BookPage(
-        items=books_result.scalars().all(),
+        items=[
+            BookReadWithDownload(
+                id=book.id,
+                title=book.title,
+                author=book.author,
+                published_date=book.published_date,
+                isbn=book.isbn,
+                cover_url=book.cover_url,
+                downloadable=bool(book.download_url),
+            )
+            for book in books_result.scalars().all()
+        ],
         total=total_result.scalar_one(),
         offset=offset,
         limit=limit,
