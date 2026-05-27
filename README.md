@@ -170,12 +170,6 @@ http://localhost:5173
 python main.py
 ```
 
-Проверка синтаксиса основных backend-файлов:
-
-```bash
-python -m py_compile main.py app/*.py
-```
-
 ### Frontend
 
 Запуск dev-сервера:
