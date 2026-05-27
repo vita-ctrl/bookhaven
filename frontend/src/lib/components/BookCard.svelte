@@ -1,12 +1,14 @@
 <script lang="ts">
   import {
     CalendarDays,
+    Download,
     Eye,
     Hash,
     Pencil,
     Trash2,
     UserRound,
   } from "@lucide/svelte";
+  import { getBookDownloadUrl } from "$lib/api/books";
   import type { Book } from "$lib/types/book";
   import { formatDate } from "$lib/utils/format";
 
@@ -79,6 +81,17 @@
       >
         <Eye size={18} aria-hidden="true" />
       </a>
+      {#if book.downloadable}
+        <a
+          class="icon-btn"
+          href={getBookDownloadUrl(book.id)}
+          download
+          title="Скачать"
+          aria-label={`Скачать: ${book.title}`}
+        >
+          <Download size={18} aria-hidden="true" />
+        </a>
+      {/if}
       <a
         class="icon-btn"
         href={`/books/${book.id}/edit`}

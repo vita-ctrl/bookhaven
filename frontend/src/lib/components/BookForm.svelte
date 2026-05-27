@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ArrowLeft, Image, Save } from '@lucide/svelte';
+  import { ArrowLeft, Download, Image, Save } from '@lucide/svelte';
   import type { BookFieldErrors, BookFormValues } from '$lib/forms/book';
 
   export let values: Partial<BookFormValues> | undefined = {};
@@ -7,6 +7,7 @@
   export let error: string | undefined = undefined;
   export let submitLabel = 'Сохранить';
   export let cancelHref = '/';
+  export let showDownloadUrl = false;
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -71,6 +72,25 @@
         <span class="mt-2 block text-sm text-oxblood">{errors.cover_url}</span>
       {/if}
     </label>
+
+    {#if showDownloadUrl}
+      <label class="block sm:col-span-2">
+        <span class="label flex items-center gap-2">
+          <Download size={16} aria-hidden="true" />
+          Ссылка на файл книги
+        </span>
+        <input
+          class="field"
+          name="download_url"
+          value={formValues.download_url ?? ''}
+          autocomplete="off"
+          placeholder="Оставьте пустым, если файл недоступен для скачивания"
+        />
+        {#if errors.download_url}
+          <span class="mt-2 block text-sm text-oxblood">{errors.download_url}</span>
+        {/if}
+      </label>
+    {/if}
   </div>
 
   <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

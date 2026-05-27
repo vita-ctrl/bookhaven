@@ -15,6 +15,7 @@ from app.models import (
     BookCreate,
     BookPage,
     BookRead,
+    BookReadDetail,
     BookReadWithDownload,
     BookUpdate,
 )
@@ -54,12 +55,7 @@ async def get_books_page(
     return BookPage(
         items=[
             BookReadWithDownload(
-                id=book.id,
-                title=book.title,
-                author=book.author,
-                published_date=book.published_date,
-                isbn=book.isbn,
-                cover_url=book.cover_url,
+                **book.model_dump(),
                 downloadable=bool(book.download_url),
             )
             for book in books_result.scalars().all()
@@ -81,13 +77,17 @@ async def create_book(book: BookCreate, session: SessionDep):
     return db_book
 
 
-@books_router.get("/{book_id}", response_model=BookRead)
+@books_router.get("/{book_id}", response_model=BookReadDetail)
 async def get_book(book_id: int, session: SessionDep):
     result = await session.execute(select(Book).where(Book.id == book_id))
     db_book = result.scalar_one_or_none()
     if not db_book:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Book not found")
-    return db_book
+    book = BookReadDetail(
+        **db_book.model_dump(),
+        downloadable=bool(db_book.download_url),
+    )
+    return book
 
 
 @books_router.get("/{book_id}/download")

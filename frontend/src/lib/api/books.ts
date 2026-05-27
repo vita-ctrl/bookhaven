@@ -1,5 +1,11 @@
 import { env } from '$env/dynamic/public';
-import type { Book, BookCreateInput, BookPage, BookUpdateInput } from '$lib/types/book';
+import type {
+  Book,
+  BookCreateInput,
+  BookPage,
+  BookUpdateInput,
+  BookWithDownload
+} from '$lib/types/book';
 
 type Fetcher = typeof fetch;
 
@@ -56,6 +62,8 @@ export const getApiErrorMessage = (error: unknown) => {
   return 'Не удалось выполнить запрос к API';
 };
 
+export const getBookDownloadUrl = (id: number) => `${apiBaseUrl()}/books/${id}/download`;
+
 export const getBooks = (fetcher: Fetcher = fetch) => request<Book[]>(fetcher, '/books/');
 
 export interface BookPageParams {
@@ -76,7 +84,7 @@ export const getBooksPage = (fetcher: Fetcher = fetch, params: BookPageParams = 
 };
 
 export const getBook = (id: number, fetcher: Fetcher = fetch) =>
-  request<Book>(fetcher, `/books/${id}`);
+  request<BookWithDownload>(fetcher, `/books/${id}`);
 
 export const createBook = (book: BookCreateInput, fetcher: Fetcher = fetch) =>
   request<Book>(fetcher, '/books/', {

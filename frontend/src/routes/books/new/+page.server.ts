@@ -19,7 +19,7 @@ export const actions: Actions = {
 
     let created;
     try {
-      created = await createBook(toBookPayload(values), fetch);
+      created = await createBook(toBookPayload(values, { includeDownloadUrl: true }), fetch);
     } catch (error) {
       const status = error instanceof ApiError ? error.status : 500;
       return fail(status, { values, error: getApiErrorMessage(error) });

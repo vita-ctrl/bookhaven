@@ -11,13 +11,13 @@ class BookBase(SQLModel):
 
 
 class Book(BookBase, table=True):
-    id: int = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     isbn: str = Field(max_length=20, unique=True)
     download_url: str | None = Field(default=None)
 
 
 class BookCreate(BookBase):
-    pass
+    download_url: str | None = Field(default=None)
 
 
 class BookUpdate(SQLModel):
@@ -35,6 +35,10 @@ class BookRead(BookBase):
 
 class BookReadWithDownload(BookRead):
     downloadable: bool
+
+
+class BookReadDetail(BookReadWithDownload):
+    download_url: str | None = Field(default=None)
 
 
 class BookPage(SQLModel):

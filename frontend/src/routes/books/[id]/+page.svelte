@@ -2,11 +2,13 @@
   import {
     ArrowLeft,
     CalendarDays,
+    Download,
     Hash,
     Pencil,
     Trash2,
     UserRound,
   } from "@lucide/svelte";
+  import { getBookDownloadUrl } from "$lib/api/books";
   import { formatDate } from "$lib/utils/format";
   import type { ActionData, PageData } from "./$types";
 
@@ -94,7 +96,20 @@
     {/if}
 
     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-      <a class="btn btn-primary" href={`/books/${data.book.id}/edit`}>
+      {#if data.book.downloadable}
+        <a
+          class="btn btn-primary"
+          href={getBookDownloadUrl(data.book.id)}
+          download
+        >
+          <Download size={18} aria-hidden="true" />
+          Скачать
+        </a>
+      {/if}
+      <a
+        class={`btn ${data.book.downloadable ? "btn-secondary" : "btn-primary"}`}
+        href={`/books/${data.book.id}/edit`}
+      >
         <Pencil size={18} aria-hidden="true" />
         Редактировать
       </a>

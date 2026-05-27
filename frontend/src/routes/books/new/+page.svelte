@@ -19,4 +19,5 @@
   error={form?.error}
   submitLabel="Добавить книгу"
   cancelHref="/"
+  showDownloadUrl
 />

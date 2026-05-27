@@ -11,6 +11,7 @@
     published_date: data.book.published_date,
     isbn: data.book.isbn,
     cover_url: data.book.cover_url ?? "",
+    download_url: data.book.download_url ?? "",
   };
 </script>
 
@@ -28,4 +29,5 @@
   error={form?.error}
   submitLabel="Сохранить изменения"
   cancelHref={`/books/${data.book.id}`}
+  showDownloadUrl
 />

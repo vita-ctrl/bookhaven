@@ -41,7 +41,7 @@ export const actions: Actions = {
 
     let updated;
     try {
-      updated = await updateBook(id, toBookPayload(values), fetch);
+      updated = await updateBook(id, toBookPayload(values, { includeDownloadUrl: true }), fetch);
     } catch (error) {
       const status = error instanceof ApiError ? error.status : 500;
       return fail(status, { values, error: getApiErrorMessage(error) });
