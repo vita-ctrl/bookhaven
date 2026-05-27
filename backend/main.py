@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.crud import books_router
 from app.database import init_db
@@ -18,6 +19,12 @@ app = FastAPI(
     title="BookHaven API",
     description="API for bookstore",
     version="1.0.0",
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 app.include_router(books_router)
 

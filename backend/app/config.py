@@ -1,6 +1,5 @@
 from functools import lru_cache
-from typing import ClassVar
-from pydantic import AnyHttpUrl, BaseModel, field_validator
+from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
